@@ -36,6 +36,10 @@ type Service struct {
 }
 
 func NewService(port PublishedPort, isgroup bool) *Service {
+	if *internal != true && port.HostPort == "" {
+		return nil
+	}
+
 	container := port.Container
 	defaultName := strings.Split(path.Base(container.Config.Image), ":")[0]
 	if isgroup {
@@ -162,11 +166,11 @@ func (b *RegistryBridge) Add(containerId string) {
 		// }
 	}
 
+	if len(ports) == 0 {
+		log.Println("registrator: ignored:", container.ID[:12], "no exposed ports")
+	}
+
 	for _, port := range ports {
-		if *internal != true && port.HostPort == "" {
-			log.Println("registrator: ignored", container.ID[:12], "port", port.ExposedPort, "not published on host")
-			continue
-		}
 		service := NewService(port, len(ports) > 1)
 		if service == nil {
 			log.Println("registrator: ignored:", container.ID[:12], "service on port", port.ExposedPort)
