@@ -16,7 +16,7 @@ By default, when registering a service, registrator will assign the service addr
 
 If the argument `-internal` is passed, registrator will register the docker0 internal ip and port instead of the host mapped ones.
 
-The consul backend does not support automatic expiry of stale registrations after some TTL. Instead, TTL checks must be configured (see below). For backends that do support TTL expiry, registrator can be started with the `-ttl` and `-refresh-interval` arguments (both disabled by default).
+The consul backend does not support automatic expiry of stale registrations after some TTL. Instead, TTL checks must be configured (see below). For backends that do support TTL expiry, registrator can be started with the `-ttl` and `-ttl-refresh` arguments (both disabled by default).
 
 Registrator was designed to just be run as a container. You must pass the Docker socket file as a mount to `/tmp/docker.sock`, and it's a good idea to set the hostname to the machine host:
 
